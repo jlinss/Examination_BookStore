@@ -1,0 +1,10 @@
+from src.book_store import BookStore
+from src.fav_books import FavoriteBooks
+
+
+def test_book_store_uses_favorite_book():
+    store = BookStore()
+
+    assert isinstance(store.books.favorites, FavoriteBooks)
+
+
