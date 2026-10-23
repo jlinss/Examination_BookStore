@@ -5,17 +5,16 @@ def test_add_book():
 
     book = store.addBook("New Book Added", "Test Python")
 
+    assert book["id"] == 1
     assert book["title"] == "New Book Added"
     assert book["author"] == "Test Python"
-    assert book["id"] == 1
-
 
 
 def test_two_books_dif_id():
     store = BookStore()
 
     first_book = store.addBook("New Book Added", "Test Python")
-    second_book = store.addBook("New Book Added Two", "Test Python")
+    second_book = store.addBook("New Book Added Two", "New Test Python")
 
     assert first_book["id"] != second_book["id"]
 
@@ -23,4 +22,12 @@ def test_two_books_dif_id():
 
 
 
+def test_toggle_book():
+    store = BookStore()
+    book = store.addBook("New Book Added", "Test Python")
+
+    result = store.toggleFavorite(book["id"])
+
+    assert result is True
+    assert book in store.favorites.books
 

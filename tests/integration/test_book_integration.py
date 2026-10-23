@@ -5,6 +5,6 @@ from src.fav_books import FavoriteBooks
 def test_book_store_uses_favorite_book():
     store = BookStore()
 
-    assert isinstance(store.books.favorites, FavoriteBooks)
+    assert isinstance(store.favorites, FavoriteBooks)
 
 

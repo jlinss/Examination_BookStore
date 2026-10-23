@@ -1,39 +1,39 @@
 from src.fav_books import FavoriteBooks
 
 def test_add_book():
-    favorite_book = FavoriteBooks()
+    favorites = FavoriteBooks()
     book = {"id": 1, "title": "New Book Added", "author": "Test Python"}
 
-    favorite_book.add(book)
+    favorites.add(book)
 
-    assert book in favorite_book.books
+    assert book in favorites.books
 
 def test_remove_book():
-    favorite_book = FavoriteBooks()
+    favorites = FavoriteBooks()
     book = {"id": 1, "title": "New Book Added", "author": "Test Python"}
 
-    favorite_book.remove(book)
+    favorites.remove(book)
 
-    assert book not in favorite_book.books
+    assert book not in favorites.books
 
 
 def test_remove_book_unexistent():
-    favorite_book = FavoriteBooks()
+    favorites =  FavoriteBooks()
     book = {"id": 1, "title": "New Book Added", "author": "Test Python"}
 
-    favorite_book.remove(book)
+    favorites.remove(book)
 
-    assert favorite_book.books == []
+    assert favorites.books == []
 
 
-def test_add_book_again():
-    favorite_book = FavoriteBooks()
+def test_add_book_twice():
+    favorites = FavoriteBooks()
     book = {"id": 1, "title": "New Book Added", "author": "Test Python"}
 
-    favorite_book.add(book)
-    favorite_book.add(book)
+    favorites.add(book)
+    favorites.add(book)
 
-    assert len(favorite_book.books) == 1
+    assert len(favorites.books) == 1
 
 
 
