@@ -29,5 +29,5 @@ def test_toggle_book():
     result = store.toggleFavorite(book["id"])
 
     assert result is True
-    assert book in store.favorites.books
+    assert book in store.favorites_books.books
 
