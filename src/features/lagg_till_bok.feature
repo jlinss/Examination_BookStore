@@ -11,3 +11,8 @@ Feature: Lägg till bok
     And användaren fyller i titeln "Testbok 123" och författaren "Testförfattare"
     And användaren klickar på knappen för att lägga till boken
     Then ska boken "Testbok 123" visas på sidan
+
+  Scenario: Knappen för att lägga till en bok är inaktiverad när obligatoriska uppgifter saknas
+    Given att användaren öppnar Läslistan
+    When användaren öppnar formuläret för att lägga till en bok
+    Then ska knappen för att lägga till boken vara inaktiverad

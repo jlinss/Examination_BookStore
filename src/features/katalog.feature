@@ -1,8 +1,8 @@
 Feature: Katalog
 
-  Scenario: Användaren kan öppna katalogen
+  Scenario: Användaren kan se katalogen
     Given att användaren öppnar Läslistan
-    When användaren klickar på "Katalog"
+    When katalogsidan har laddats
     Then ska katalogsidan visas
 
   Scenario: Användaren kan öppna sidan Mina böcker

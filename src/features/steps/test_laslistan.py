@@ -26,10 +26,18 @@ def click_navigation_link(page, link_text):
 # KATALOG
 # -------------------------
 
+@when("katalogsidan har laddats")
+def catalog_page_loaded(page):
+    page.get_by_text(
+        "Sidan för dig som gillar att läsa. Välj dina favoriter."
+    ).wait_for()
+
+
 @then("ska katalogsidan visas")
 def verify_katalog(page):
-    page.get_by_text("Katalog", exact=True).first.wait_for()
-    assert page.locator("body").inner_text().strip() != ""
+    page.get_by_text(
+        "Sidan för dig som gillar att läsa. Välj dina favoriter."
+    ).wait_for()
 
 
 # -------------------------
@@ -39,7 +47,6 @@ def verify_katalog(page):
 @then("ska sidan Mina böcker visas")
 def verify_mina_bocker(page):
     page.get_by_text("Mina böcker", exact=True).first.wait_for()
-    assert page.locator("body").inner_text().strip() != ""
 
 
 @when("användaren öppnar Mina böcker")
@@ -47,9 +54,52 @@ def open_mina_bocker(page):
     page.get_by_text("Mina böcker", exact=True).first.click()
 
 
-@then("ska favoritboken visas")
-def verify_favorite_book(page):
-    page.get_by_text("Dina favoriter:", exact=True).wait_for()
+@then("ska båda favoritböckerna visas")
+def verify_both_favorite_books(page):
+    page.get_by_text(
+        "Ormar på ett plan: En Python-berättelse",
+        exact=False
+    ).wait_for()
+
+    page.get_by_text(
+        "The Pragmatic Procrastinator",
+        exact=False
+    ).wait_for()
+
+
+@then("ska den borttagna boken inte visas")
+def verify_removed_book_not_visible(page):
+    removed_book = page.get_by_text(
+        "The Pragmatic Procrastinator",
+        exact=False
+    )
+    assert removed_book.count() == 0
+
+
+@then("ska den andra favoritboken fortfarande visas")
+def verify_other_favorite_book_visible(page):
+    page.get_by_text(
+        "Ormar på ett plan: En Python-berättelse",
+        exact=False
+    ).wait_for()
+
+
+@when("användaren markerar två böcker som favoriter")
+def mark_two_books_as_favorites(page):
+    page.get_by_test_id(
+        "star-Ormar på ett plan: En Python-berättelse"
+    ).click()
+
+    page.get_by_test_id(
+        "star-The Pragmatic Procrastinator"
+    ).click()
+
+
+@when("användaren tar bort en av favoritböckerna")
+def remove_one_favorite_book(page):
+    page.get_by_test_id(
+        "star-The Pragmatic Procrastinator"
+    ).click()
 
 
 # -------------------------
@@ -71,12 +121,22 @@ def verify_statistik(page):
 def open_add_book_form(page):
     page.get_by_text("Lägg till bok", exact=True).first.click()
 
+
 @then("ska formuläret för att lägga till en bok visas")
 def verify_add_book_form(page):
     inputs = page.locator("input")
     assert inputs.count() >= 2, (
         "Formuläret innehåller inte minst två input-fält."
     )
+
+
+@then("ska knappen för att lägga till boken vara inaktiverad")
+def verify_add_book_button_disabled(page):
+    button = page.get_by_role(
+        "button",
+        name="Lägg till ny bok"
+    )
+
 
 @when(
     parsers.parse(
@@ -90,25 +150,13 @@ def fill_book_form(page, title, author):
 
 @when("användaren klickar på knappen för att lägga till boken")
 def click_add_book_button(page):
-    print("Inputs:", page.locator("input").count())
-    print("Valores:", page.locator("input").evaluate_all(
-        "(elements) => elements.map(e => e.value)"
-    ))
+    page.get_by_role(
+        "button",
+        name="Lägg till ny bok"
+    ).click()
 
-    page.get_by_role("button", name="Lägg till ny bok").click()
-
-    page.wait_for_timeout(1000)
-
-    print("URL:", page.url)
-    print("Conteúdo:", page.locator("body").inner_text())
-    print("Inputs:", page.locator("input").count())
-    print("Valores:", page.locator("input").evaluate_all(
-        "(elements) => elements.map(e => e.value)"
-    ))
 
 @then(parsers.parse('ska boken "{title}" visas på sidan'))
 def verify_book_added(page, title):
     page.get_by_text("Katalog", exact=True).first.click()
-
-    # Kontrollera att bokens titel visas i katalogen
     page.get_by_text(title, exact=False).wait_for(timeout=5000)

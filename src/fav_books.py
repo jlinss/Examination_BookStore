@@ -3,12 +3,9 @@ class FavoriteBooks:
         self.books = []
 
     def add(self, book):
-            if book not in self.books:
-                self.books.append(book)
-
-
+        if book not in self.books:
+            self.books.append(book)
 
     def remove(self, book):
-            if book in self.books:
-                self.books.remove(book)
-
+        if book in self.books:
+            self.books.remove(book)

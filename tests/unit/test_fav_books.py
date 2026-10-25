@@ -1,5 +1,6 @@
 from src.fav_books import FavoriteBooks
 
+
 def test_add_book():
     favorites = FavoriteBooks()
     book = {"id": 1, "title": "New Book Added", "author": "Test Python"}
@@ -7,6 +8,7 @@ def test_add_book():
     favorites.add(book)
 
     assert book in favorites.books
+
 
 def test_remove_book():
     favorites = FavoriteBooks()
@@ -18,7 +20,7 @@ def test_remove_book():
 
 
 def test_remove_book_unexistent():
-    favorites =  FavoriteBooks()
+    favorites = FavoriteBooks()
     book = {"id": 1, "title": "New Book Added", "author": "Test Python"}
 
     favorites.remove(book)
@@ -34,15 +36,6 @@ def test_add_book_twice():
     favorites.add(book)
 
     assert len(favorites.books) == 1
-
-
-
-
-
-
-
-
-
 
 
 """{ id: 1, title: "Ormar på ett plan: En Python-berättelse", author: "Guido van Rossum" },
